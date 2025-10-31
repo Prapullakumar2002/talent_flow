@@ -5,15 +5,17 @@ import './index.css';
 import { seedDatabase } from './db';
 
 async function enableMocking() {
-  if (import.meta.env.MODE !== 'development') {
-    return;
-  }
+  // if (import.meta.env.MODE !== 'development') {
+  //   return;
+  // }
 
   const { worker } = await import('./mocks/browser');
 
   // `worker.start()` returns a Promise that resolves
   // once the Service Worker is up and running.
-  return worker.start();
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  });
 }
 
 seedDatabase().then(() => {
